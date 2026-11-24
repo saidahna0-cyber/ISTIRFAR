@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Amiri', Georgia, serif;
+    --font-sans: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #FAF8F3;
+    color: #1A2420;
+    overflow-x: hidden;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle Islamic octagonal star lattice texture */
+.islamic-lattice-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23B48327' stroke-opacity='0.09' stroke-width='1'%3E%3Cpolygon points='32,4 40,24 60,32 40,40 32,60 24,40 4,32 24,24'/%3E%3Crect x='14' y='14' width='36' height='36' transform='rotate(45 32 32)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 64px 64px;
+}
+
+.islamic-lattice-emerald {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23D4AF37' stroke-opacity='0.12' stroke-width='1'%3E%3Cpolygon points='32,4 40,24 60,32 40,40 32,60 24,40 4,32 24,24'/%3E%3Crect x='14' y='14' width='36' height='36' transform='rotate(45 32 32)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 64px 64px;
+}
+
+@keyframes floatUpFade {
+  0% {
+    opacity: 0.95;
+    transform: translateY(0) scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-42px) scale(1.1);
+  }
+}
+
+.animate-float-dhikr {
+  animation: floatUpFade 650ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-float-dhikr {
+    animation: none;
+    opacity: 0;
+  }
+}

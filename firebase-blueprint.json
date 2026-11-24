@@ -1,0 +1,375 @@
+{
+  "entities": {
+    "Participant": {
+      "title": "Participant",
+      "description": "Public participant record in the Istighfar campaign.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Unique participant identifier."
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50,
+          "description": "Participant display name or nickname."
+        },
+        "city": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 50,
+          "description": "Optional city name."
+        },
+        "totalIstighfar": {
+          "type": "integer",
+          "description": "Total verified Istighfar count for this participant."
+        },
+        "lastLogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Most recent log ID or state marker (none, undone)."
+        },
+        "lastLogDelta": {
+          "type": "integer",
+          "description": "Delta of the most recent undoable action (0, 1, 10, 33, 100)."
+        },
+        "isPublic": {
+          "type": "boolean",
+          "description": "Whether the participant appears in the public directory."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of registration."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last update."
+        }
+      },
+      "required": [
+        "id",
+        "displayName",
+        "city",
+        "totalIstighfar",
+        "lastLogId",
+        "lastLogDelta",
+        "isPublic",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ParticipantSecret": {
+      "title": "ParticipantSecret",
+      "description": "Private non-readable ownership proof and rate-limit state for a participant.",
+      "type": "object",
+      "properties": {
+        "participantId": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "secretToken": {
+          "type": "string",
+          "minLength": 24,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "lastLogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "lastDelta": {
+          "type": "integer"
+        },
+        "lastActionAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "participantId",
+        "secretToken",
+        "lastLogId",
+        "lastDelta",
+        "lastActionAt",
+        "createdAt"
+      ]
+    },
+    "CampaignStats": {
+      "title": "CampaignStats",
+      "description": "Global aggregated Istighfar campaign statistics.",
+      "type": "object",
+      "properties": {
+        "totalIstighfar": {
+          "type": "integer"
+        },
+        "totalParticipants": {
+          "type": "integer"
+        },
+        "todayIstighfar": {
+          "type": "integer"
+        },
+        "todayDate": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "weeklyIstighfar": {
+          "type": "integer"
+        },
+        "weekKey": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 8,
+          "pattern": "^[0-9]{4}-W[0-9]{2}$"
+        },
+        "monthlyIstighfar": {
+          "type": "integer"
+        },
+        "monthKey": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 7,
+          "pattern": "^[0-9]{4}-[0-9]{2}$"
+        },
+        "lastLogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "totalIstighfar",
+        "totalParticipants",
+        "todayIstighfar",
+        "todayDate",
+        "weeklyIstighfar",
+        "weekKey",
+        "monthlyIstighfar",
+        "monthKey",
+        "lastLogId",
+        "lastUpdated"
+      ]
+    },
+    "IstighfarLog": {
+      "title": "IstighfarLog",
+      "description": "Immutable log entry for each Istighfar increment or undo action.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "participantId": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "proofToken": {
+          "type": "string",
+          "minLength": 24,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "actionType": {
+          "type": "string",
+          "enum": ["increment", "undo"]
+        },
+        "date": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "weekKey": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 8,
+          "pattern": "^[0-9]{4}-W[0-9]{2}$"
+        },
+        "monthKey": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 7,
+          "pattern": "^[0-9]{4}-[0-9]{2}$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "participantId",
+        "proofToken",
+        "count",
+        "actionType",
+        "date",
+        "weekKey",
+        "monthKey",
+        "createdAt"
+      ]
+    },
+    "CampaignSettings": {
+      "title": "CampaignSettings",
+      "description": "Public campaign configuration and daily message managed by admins.",
+      "type": "object",
+      "properties": {
+        "dailyMessage": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 500
+        },
+        "campaignGoal": {
+          "type": "integer"
+        },
+        "isRegistrationOpen": {
+          "type": "boolean"
+        },
+        "announcement": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 300
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "dailyMessage",
+        "campaignGoal",
+        "isRegistrationOpen",
+        "announcement",
+        "updatedAt",
+        "updatedBy"
+      ]
+    },
+    "SuspiciousEvent": {
+      "title": "SuspiciousEvent",
+      "description": "Log of blocked rapid-fire or invalid counter attempts for admin review.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "participantId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 200
+        },
+        "attemptedDelta": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "participantId",
+        "reason",
+        "attemptedDelta",
+        "createdAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized campaign administrator record.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "addedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "uid",
+        "email",
+        "addedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/participants/{participantId}": {
+      "schema": { "$ref": "#/entities/Participant" },
+      "description": "Campaign participants (public profiles visible when isPublic is true)."
+    },
+    "/participantSecrets/{participantId}": {
+      "schema": { "$ref": "#/entities/ParticipantSecret" },
+      "description": "Non-readable ownership token and rate-limit timestamps for each participant."
+    },
+    "/campaignStats/{statId}": {
+      "schema": { "$ref": "#/entities/CampaignStats" },
+      "description": "Global campaign statistics document (global)."
+    },
+    "/istighfarLogs/{logId}": {
+      "schema": { "$ref": "#/entities/IstighfarLog" },
+      "description": "Audit log of every Istighfar increment and undo operation."
+    },
+    "/campaignSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/CampaignSettings" },
+      "description": "Public campaign settings and daily message managed by administrators."
+    },
+    "/suspiciousEvents/{eventId}": {
+      "schema": { "$ref": "#/entities/SuspiciousEvent" },
+      "description": "Rate-limit and abuse events flagged for administrator review."
+    },
+    "/admins/{uid}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Authorized administrator user documents."
+    }
+  }
+}
